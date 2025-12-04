@@ -3,13 +3,18 @@ const nextConfig = {
   // Enable React strict mode for better development
   reactStrictMode: true,
   
-  // Enable SWC minification for faster builds
-  swcMinify: true,
-  
-  // Image optimization
+  // Image optimization with remotePatterns (new format)
   images: {
-    domains: ['api.open-meteo.com', 'nominatim.openstreetmap.org'],
-    unoptimized: false,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.open-meteo.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'nominatim.openstreetmap.org',
+      },
+    ],
   },
   
   // Enable compression
@@ -28,11 +33,6 @@ const nextConfig = {
         ],
       },
     ];
-  },
-  
-  // Experimental features for better performance
-  experimental: {
-    optimizeCss: true,
   },
   
   // Environment variables for client-side
