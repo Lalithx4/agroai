@@ -12,13 +12,15 @@ export default function ChatPage() {
     const { showToast } = useToast();
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
+    const hasInitialized = useRef(false);
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const [ttsEnabled, setTtsEnabled] = useState(true);
 
     useEffect(() => {
-        if (messages.length === 0) {
+        if (!hasInitialized.current) {
+            hasInitialized.current = true;
             addMessage('plant', t('chatWelcome'));
         }
     }, []);

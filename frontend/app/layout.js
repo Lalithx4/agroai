@@ -1,4 +1,6 @@
 import './globals.css';
+import './dashboard.css';
+import './pages.css';
 import Header from '@/components/layout/Header';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';

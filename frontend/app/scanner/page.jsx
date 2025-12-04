@@ -3,23 +3,44 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/contexts/ToastContext';
-import BackButton from '@/components/layout/BackButton';
+import { useRouter } from 'next/navigation';
 import { analyzeHealth } from '@/services/api';
 import { addScanToHistory } from '@/services/cache';
-import { Target, Radio, FolderOpen, Camera, Zap, X, CheckCircle, AlertTriangle, Loader2, Droplets, Thermometer, Leaf, FlaskConical, Sun, Bug, Lightbulb } from 'lucide-react';
+import './scanner.css';
+import {
+    ArrowLeft,
+    FolderOpen,
+    Camera,
+    Zap,
+    ZapOff,
+    X,
+    CheckCircle,
+    AlertTriangle,
+    Loader2,
+    Droplets,
+    Thermometer,
+    Leaf,
+    FlaskConical,
+    Sun,
+    Bug,
+    Lightbulb,
+    Settings
+} from 'lucide-react';
 
 export default function ScannerPage() {
     const { t } = useLanguage();
     const { showToast } = useToast();
+    const router = useRouter();
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const fileInputRef = useRef(null);
     const [stream, setStream] = useState(null);
-    const [isAREnabled, setIsAREnabled] = useState(true);
+    const [isFlashOn, setIsFlashOn] = useState(false);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [analysisResult, setAnalysisResult] = useState(null);
     const [resultImage, setResultImage] = useState(null);
     const [cameraError, setCameraError] = useState(false);
+    const [isCapturing, setIsCapturing] = useState(false);
 
     useEffect(() => {
         startCamera();
@@ -29,7 +50,11 @@ export default function ScannerPage() {
     const startCamera = async () => {
         try {
             const mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
+                video: {
+                    facingMode: 'environment',
+                    width: { ideal: 1920 },
+                    height: { ideal: 1080 }
+                }
             });
             setStream(mediaStream);
             if (videoRef.current) videoRef.current.srcObject = mediaStream;
@@ -40,12 +65,29 @@ export default function ScannerPage() {
         }
     };
 
+    const toggleFlash = async () => {
+        if (stream) {
+            const track = stream.getVideoTracks()[0];
+            const capabilities = track.getCapabilities?.();
+            if (capabilities?.torch) {
+                await track.applyConstraints({ advanced: [{ torch: !isFlashOn }] });
+                setIsFlashOn(!isFlashOn);
+            } else {
+                showToast('Flash not available', 'info');
+            }
+        }
+    };
+
     const captureImage = useCallback(async () => {
         if (!videoRef.current || !canvasRef.current) return;
+
+        setIsCapturing(true);
+        setTimeout(() => setIsCapturing(false), 500);
+
         setIsAnalyzing(true);
         const canvas = canvasRef.current, video = videoRef.current;
-        canvas.width = video.videoWidth || 640;
-        canvas.height = video.videoHeight || 480;
+        canvas.width = video.videoWidth || 1280;
+        canvas.height = video.videoHeight || 720;
         canvas.getContext('2d').drawImage(video, 0, 0);
         canvas.toBlob(async (blob) => { if (blob) await analyzeImage(blob); }, 'image/jpeg', 0.9);
     }, []);
@@ -82,140 +124,240 @@ export default function ScannerPage() {
         }
     };
 
+    const closeResult = () => {
+        setAnalysisResult(null);
+        setResultImage(null);
+    };
+
     const tipIcons = [Droplets, Thermometer, Leaf, FlaskConical, Sun];
 
     return (
-        <section className="screen active" style={{ padding: 0, display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 60px)' }}>
-            <div className="scanner-header" style={{ padding: 'var(--space-4)' }}>
-                <BackButton />
-                <h2>{t('arScanner')}</h2>
-                <button className={`ar-toggle ${!isAREnabled ? 'off' : ''}`} onClick={() => setIsAREnabled(!isAREnabled)}>
-                    <Target size={18} />
-                </button>
-            </div>
-
-            <div className="ar-container" style={{ flex: 1, margin: '0 var(--space-4)' }}>
-                <div className="camera-view">
-                    {cameraError ? (
-                        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-elevated)', color: 'var(--text-muted)' }}>
-                            <Camera size={48} style={{ marginBottom: 'var(--space-3)' }} />
-                            <p>Camera unavailable</p>
-                            <button onClick={() => fileInputRef.current?.click()} style={{ marginTop: 'var(--space-3)', padding: 'var(--space-2) var(--space-4)', background: 'var(--primary)', border: 'none', borderRadius: 'var(--radius-md)', color: 'white', cursor: 'pointer' }}>
-                                Upload Image
-                            </button>
-                        </div>
-                    ) : (
-                        <>
-                            <video ref={videoRef} autoPlay playsInline muted style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            <canvas ref={canvasRef} style={{ display: 'none' }} />
-                            {isAREnabled && (
-                                <div className="ar-overlay">
-                                    <div className="ar-frame">
-                                        <div className="corner tl"></div>
-                                        <div className="corner tr"></div>
-                                        <div className="corner bl"></div>
-                                        <div className="corner br"></div>
-                                    </div>
-                                    <div className="scan-line"></div>
-                                </div>
-                            )}
-                        </>
-                    )}
-                    <div className="ar-hud">
-                        <div className="hud-item">
-                            <Radio size={12} />
-                            <span>{isAnalyzing ? t('analyzing') : 'Ready'}</span>
-                        </div>
+        <div className="scanner-page">
+            {/* Fullscreen Camera */}
+            {cameraError ? (
+                <div className="scanner-error">
+                    <div className="scanner-error-content">
+                        <Camera size={64} strokeWidth={1.5} />
+                        <h2>Camera Unavailable</h2>
+                        <p>Please allow camera access or upload an image</p>
+                        <button
+                            className="scanner-upload-btn"
+                            onClick={() => fileInputRef.current?.click()}
+                        >
+                            <FolderOpen size={20} />
+                            Upload Image
+                        </button>
                     </div>
                 </div>
+            ) : (
+                <video
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
+                    muted
+                    className="scanner-camera"
+                />
+            )}
+            <canvas ref={canvasRef} style={{ display: 'none' }} />
+
+            {/* Floating Header */}
+            <div className="scanner-floating-header">
+                <button className="scanner-header-btn" onClick={() => router.back()}>
+                    <ArrowLeft size={22} />
+                </button>
+
+                <div className="scanner-status-pill">
+                    <span className={`status-dot ${isAnalyzing ? 'analyzing' : ''}`} />
+                    <span>{isAnalyzing ? 'Analyzing...' : 'Ready to Scan'}</span>
+                </div>
+
+                <button className="scanner-header-btn">
+                    <Settings size={22} />
+                </button>
             </div>
 
-            <div className="scanner-controls" style={{ margin: 'var(--space-4)' }}>
-                <button className="ctrl-btn" onClick={() => fileInputRef.current?.click()}>
-                    <FolderOpen size={22} />
+            {/* Scanning Focus Ring */}
+            {!cameraError && (
+                <div className={`scanner-focus-ring ${isAnalyzing ? 'active' : ''}`}>
+                    <div className="focus-ring-outer" />
+                    <div className="focus-ring-middle" />
+                    <div className="focus-ring-inner" />
+                    <div className="focus-crosshair">
+                        <div className="crosshair-h" />
+                        <div className="crosshair-v" />
+                    </div>
+                </div>
+            )}
+
+            {/* Bottom Control Dock */}
+            <div className="scanner-dock">
+                <button
+                    className="dock-btn"
+                    onClick={() => fileInputRef.current?.click()}
+                >
+                    <FolderOpen size={24} />
                     <span>Gallery</span>
                 </button>
-                <button className="capture-btn" onClick={captureImage} disabled={isAnalyzing || cameraError}>
-                    {isAnalyzing ? <Loader2 size={24} className="spin" /> : <Camera size={24} />}
+
+                <button
+                    className={`capture-btn ${isCapturing ? 'capturing' : ''}`}
+                    onClick={captureImage}
+                    disabled={isAnalyzing || cameraError}
+                >
+                    {isAnalyzing ? (
+                        <Loader2 size={28} className="spin" />
+                    ) : (
+                        <Camera size={28} />
+                    )}
                 </button>
-                <button className="ctrl-btn">
-                    <Zap size={22} />
+
+                <button className="dock-btn" onClick={toggleFlash}>
+                    {isFlashOn ? <Zap size={24} /> : <ZapOff size={24} />}
                     <span>Flash</span>
                 </button>
             </div>
 
-            <input type="file" ref={fileInputRef} accept="image/*" hidden onChange={handleFileSelect} />
+            {/* Hidden file input */}
+            <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                hidden
+                onChange={handleFileSelect}
+            />
 
-            {analysisResult && (
-                <div className="result-panel">
-                    <div className="result-header">
-                        <button className="close-btn" onClick={() => { setAnalysisResult(null); setResultImage(null); }}>
-                            <X size={18} />
-                        </button>
-                        <h3>{t('analysisResult')}</h3>
-                    </div>
-
-                    {resultImage && (
-                        <div className="result-image-wrap">
-                            <img src={resultImage} alt="Analyzed plant" />
-                        </div>
-                    )}
-
-                    <div className={`health-indicator ${analysisResult.health_status === 'healthy' ? 'healthy' : 'unhealthy'}`}>
-                        <div className="health-icon">
-                            {analysisResult.health_status === 'healthy' ? <CheckCircle size={22} /> : <AlertTriangle size={22} />}
-                        </div>
-                        <div className="health-info">
-                            <span className="health-status">{analysisResult.health_status === 'healthy' ? t('healthy') : t('issues')}</span>
-                            <span className="plant-type">{analysisResult.plant_name || 'Plant'}</span>
-                        </div>
-                        <div className="confidence-ring">
-                            <svg viewBox="0 0 36 36">
-                                <circle className="ring-bg" cx="18" cy="18" r="16" />
-                                <circle className="ring-fill" cx="18" cy="18" r="16" style={{ strokeDashoffset: 100 - ((analysisResult.confidence || 0.85) * 100) }} />
-                            </svg>
-                            <span className="confidence-num">{Math.round((analysisResult.confidence || 0.85) * 100)}%</span>
-                        </div>
-                    </div>
-
-                    {analysisResult.diseases?.length > 0 && (
-                        <div className="diseases-section">
-                            <h4><Bug size={16} /> {t('issues')}</h4>
-                            {analysisResult.diseases.map((d, i) => (
-                                <div key={i} className="disease-item">
-                                    <div className="disease-header">
-                                        <span className="disease-name"><Bug size={12} /> {d.name}</span>
-                                        <span className={`disease-severity ${d.severity || 'medium'}`}>{d.severity || 'medium'}</span>
-                                    </div>
-                                    {d.description && <p className="disease-desc">{d.description}</p>}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {analysisResult.recommendations?.length > 0 && (
-                        <div className="tips-section">
-                            <h4><Lightbulb size={16} /> Tips</h4>
-                            {analysisResult.recommendations.map((tip, i) => {
-                                const TipIcon = tipIcons[i % tipIcons.length];
-                                return (
-                                    <div key={i} className="tip-item">
-                                        <span className="tip-icon"><TipIcon size={14} /></span>
-                                        <p className="tip-desc">{tip}</p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    )}
-                </div>
-            )}
-
+            {/* Loading Overlay */}
             {isAnalyzing && (
-                <div className="loading-overlay">
-                    <div className="loader"><Loader2 size={32} className="spin" /></div>
-                    <p>{t('analyzing')}</p>
+                <div className="scanner-loading">
+                    <div className="loading-ring">
+                        <div className="loading-ring-inner" />
+                    </div>
+                    <p>Analyzing your plant...</p>
+                    <span className="loading-subtitle">This may take a few seconds</span>
                 </div>
             )}
-        </section>
+
+            {/* Result Panel */}
+            <div className={`result-panel ${analysisResult ? 'open' : ''}`}>
+                <div className="result-panel-header">
+                    <h2>Analysis Result</h2>
+                    <button className="result-close-btn" onClick={closeResult}>
+                        <X size={22} />
+                    </button>
+                </div>
+
+                {analysisResult && (
+                    <div className="result-content">
+                        {/* Captured Image */}
+                        {resultImage && (
+                            <div className="result-image-container">
+                                <img src={resultImage} alt="Analyzed plant" />
+                            </div>
+                        )}
+
+                        {/* Bento Grid Results */}
+                        <div className="result-bento">
+                            {/* Health Status Card - Full Width */}
+                            <div className={`bento-card health-status full-width ${analysisResult.health_status !== 'healthy' ? 'warning' : ''
+                                }`}>
+                                <div className={`health-badge ${analysisResult.health_status !== 'healthy' ? 'warning' : ''
+                                    }`}>
+                                    {analysisResult.health_status === 'healthy' ? (
+                                        <CheckCircle size={18} />
+                                    ) : (
+                                        <AlertTriangle size={18} />
+                                    )}
+                                    {analysisResult.health_status === 'healthy' ? 'Healthy Plant' : 'Issues Detected'}
+                                </div>
+
+                                <div className="confidence-display">
+                                    <div className="confidence-circle">
+                                        <svg viewBox="0 0 80 80">
+                                            <circle className="bg" cx="40" cy="40" r="36" />
+                                            <circle
+                                                className="fill"
+                                                cx="40"
+                                                cy="40"
+                                                r="36"
+                                                style={{
+                                                    strokeDashoffset: 226 - (226 * (analysisResult.confidence || 0.85))
+                                                }}
+                                            />
+                                        </svg>
+                                        <span className="confidence-value">
+                                            {Math.round((analysisResult.confidence || 0.85) * 100)}%
+                                        </span>
+                                    </div>
+                                    <div className="plant-info">
+                                        <h3>{analysisResult.plant_name || 'Plant'}</h3>
+                                        <p>Confidence Score</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Diseases Card */}
+                            {analysisResult.diseases?.length > 0 && (
+                                <div className="bento-card full-width">
+                                    <div className="bento-card-header">
+                                        <Bug size={20} />
+                                        <h4>Detected Issues</h4>
+                                    </div>
+                                    <div className="disease-list">
+                                        {analysisResult.diseases.map((d, i) => (
+                                            <div key={i} className="disease-item">
+                                                <div className="disease-header">
+                                                    <span className="disease-name">{d.name}</span>
+                                                    <span className={`disease-severity ${d.severity || 'medium'}`}>
+                                                        {d.severity || 'medium'}
+                                                    </span>
+                                                </div>
+                                                {d.description && (
+                                                    <p className="disease-desc">{d.description}</p>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Recommendations Card */}
+                            {analysisResult.recommendations?.length > 0 && (
+                                <div className="bento-card full-width">
+                                    <div className="bento-card-header">
+                                        <Lightbulb size={20} />
+                                        <h4>Recommendations</h4>
+                                    </div>
+                                    <div className="tips-list">
+                                        {analysisResult.recommendations.map((tip, i) => {
+                                            const TipIcon = tipIcons[i % tipIcons.length];
+                                            return (
+                                                <div key={i} className="tip-card">
+                                                    <div className="tip-icon">
+                                                        <TipIcon size={20} />
+                                                    </div>
+                                                    <div className="tip-content">
+                                                        <p>{tip}</p>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="result-actions">
+                            <button className="result-action-btn secondary" onClick={closeResult}>
+                                Scan Again
+                            </button>
+                            <button className="result-action-btn primary">
+                                Save to History
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
     );
 }

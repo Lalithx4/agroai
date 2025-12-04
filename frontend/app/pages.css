@@ -1,0 +1,1454 @@
+/* Fix scrollbar gap */
+body {
+    overflow-x: hidden !important;
+}
+
+.app-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
+/* ========================================
+   PREMIUM PAGE STYLES 2024
+   Glassmorphism  Consistent Design System
+======================================== */
+
+/* === Shared Page Layout === */
+.screen.active {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: calc(100vh - 60px);
+    padding: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    position: relative;
+    width: 100% !important;
+    overflow-x: hidden;
+}
+
+/* === Page Headers === */
+.chat-header,
+.weather-header,
+.calendar-header,
+.medicine-header,
+.pest-header,
+.history-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-sizing: border-box;
+}
+
+.chat-header h2,
+.weather-header h2,
+.calendar-header h2,
+.medicine-header h2,
+.pest-header h2,
+.history-header h2 {
+    flex: 1;
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Page Content Wrapper */
+.weather-content,
+.calendar-content,
+.medicine-content,
+.pest-content,
+.history-content,
+.chat-body {
+    padding: 16px;
+    flex: 1;
+}
+
+/* === Glass Card Base === */
+.weather-hero,
+.farm-score-card,
+.forecast-section,
+.advice-card,
+.crops-section,
+.mini-calendar,
+.medicine-content,
+.treatment-panel,
+.pest-content>div,
+.history-item,
+.crop-item {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.weather-hero:hover,
+.farm-score-card:hover,
+.forecast-section:hover,
+.advice-card:hover,
+.crops-section:hover,
+.history-item:hover,
+.crop-item:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* === Weather Page === */
+.weather-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.weather-hero {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 95, 70, 0.3) 100%);
+    border-color: rgba(16, 185, 129, 0.2);
+    text-align: center;
+    padding: 32px 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.weather-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.weather-icon-big {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.weather-icon-big svg {
+    width: 64px;
+    height: 64px;
+    color: #34d399;
+    filter: drop-shadow(0 4px 12px rgba(16, 185, 129, 0.4));
+}
+
+.weather-temp {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #f8fafc;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.weather-desc {
+    font-size: 1.25rem;
+    color: #94a3b8;
+    margin-bottom: 16px;
+}
+
+.weather-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.weather-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.detail {
+    text-align: center;
+}
+
+.detail-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.detail-icon svg {
+    color: #34d399;
+}
+
+.detail-value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.detail-label {
+    font-size: 0.75rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Farm Score */
+.farm-score-card h4,
+.forecast-section h4,
+.advice-card h4,
+.crops-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f8fafc;
+    margin-bottom: 16px;
+}
+
+.farm-score-card h4 svg,
+.forecast-section h4 svg,
+.advice-card h4 svg {
+    color: #34d399;
+}
+
+.score-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.score-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.score-circle svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.score-circle .bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 10;
+}
+
+.score-circle .fill {
+    fill: none;
+    stroke: #10b981;
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
+}
+
+.score-num {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    font-weight: 800;
+    color: #f8fafc;
+}
+
+.score-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #34d399;
+}
+
+/* Forecast */
+.forecast-list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.forecast-item {
+    flex-shrink: 0;
+    min-width: 70px;
+    text-align: center;
+    padding: 14px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    transition: all 0.3s;
+}
+
+.forecast-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.forecast-day {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.forecast-icon svg {
+    color: #34d399;
+}
+
+.forecast-temp {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-top: 8px;
+}
+
+/* Advice */
+.advice-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+.advice-item:last-child {
+    margin-bottom: 0;
+}
+
+.advice-item svg {
+    color: #fbbf24;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.advice-item span {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+/* === Chat Page === */
+.chat-plant-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.plant-emoji {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #34d399;
+}
+
+.plant-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.plant-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #f8fafc;
+}
+
+.plant-status {
+    font-size: 0.8rem;
+    color: #34d399;
+}
+
+.tts-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tts-btn.active {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 0;
+}
+
+.message {
+    max-width: 85%;
+    animation: message-in 0.3s ease;
+}
+
+@keyframes message-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.user {
+    align-self: flex-end;
+}
+
+.message.plant {
+    align-self: flex-start;
+}
+
+.message-bubble {
+    padding: 14px 18px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.message.user .message-bubble {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    color: white;
+    border-bottom-right-radius: 6px;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.message.plant .message-bubble {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+    border-bottom-left-radius: 6px;
+}
+
+.message-time {
+    font-size: 0.7rem;
+    color: #64748b;
+    margin-top: 4px;
+    padding: 0 4px;
+}
+
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #34d399;
+    border-radius: 50%;
+    animation: typing-bounce 1.4s ease-in-out infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing-bounce {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-6px);
+    }
+}
+
+.quick-replies {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 12px 0;
+}
+
+.quick-replies button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.quick-replies button:hover {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #34d399;
+}
+
+.chat-input-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.chat-input-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #f8fafc;
+    font-size: 1rem;
+    outline: none;
+}
+
+.chat-input-bar input::placeholder {
+    color: #64748b;
+}
+
+.mic-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 14px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.mic-btn:hover {
+    background: rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+}
+
+.send-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    border: none;
+    border-radius: 14px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.send-btn:hover {
+    transform: scale(1.05);
+}
+
+.send-btn:disabled {
+    opacity: 0.5;
+    transform: none;
+}
+
+/* === Calendar Page === */
+.calendar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.crops-section h4 svg,
+.crops-section h4 {
+    color: #34d399;
+}
+
+.crops-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.crop-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    margin-bottom: 0;
+}
+
+.crop-item svg {
+    color: #34d399;
+}
+
+.empty-crops {
+    text-align: center;
+    padding: 32px;
+    color: #64748b;
+}
+
+.empty-crops button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.mini-calendar {
+    padding: 20px;
+}
+
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-nav button {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.calendar-nav button:hover {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #34d399;
+}
+
+.calendar-nav span {
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+}
+
+.calendar-grid>div {
+    padding: 10px 0;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+/* === Medicine Page === */
+.medicine-content {
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+.medicine-search {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.medicine-search input {
+    flex: 1;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    color: #f8fafc;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.medicine-search input:focus {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.medicine-search input::placeholder {
+    color: #64748b;
+}
+
+.medicine-search button {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    border: none;
+    border-radius: 16px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.disease-categories {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+.cat-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.cat-btn:hover,
+.cat-btn.active {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #34d399;
+}
+
+.disease-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.disease-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.disease-card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(4px);
+}
+
+.disease-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(244, 63, 94, 0.15);
+    border-radius: 14px;
+    color: #fb7185;
+}
+
+.disease-name {
+    flex: 1;
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+.disease-arrow {
+    color: #64748b;
+}
+
+/* Treatment Panel */
+.treatment-panel {
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.back-treatment {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+.back-treatment:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
+}
+
+.treatment-content {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 24px;
+}
+
+.treatment-content h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.25rem;
+    color: #f8fafc;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.treatment-content h3 svg {
+    color: #fb7185;
+}
+
+.treatment-section {
+    margin-bottom: 20px;
+}
+
+.treatment-section:last-child {
+    margin-bottom: 0;
+}
+
+.treatment-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    color: #f8fafc;
+    margin-bottom: 12px;
+}
+
+.treatment-section h4 svg {
+    color: #34d399;
+}
+
+.treatment-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.treatment-section li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.treatment-section li::before {
+    content: '•';
+    color: #34d399;
+    font-weight: bold;
+}
+
+/* === Pest Page === */
+.pest-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pest-content>div {
+    margin-bottom: 0;
+}
+
+.pest-alert-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.08) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 16px;
+}
+
+.alert-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245, 158, 11, 0.2);
+    border-radius: 12px;
+    color: #fbbf24;
+}
+
+.alert-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.alert-title {
+    font-weight: 600;
+    color: #fbbf24;
+}
+
+.alert-text {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.crop-pest-section h4,
+.pest-calendar-section h4,
+.sightings-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f8fafc;
+    margin-bottom: 16px;
+}
+
+.crop-pest-section h4 svg,
+.pest-calendar-section h4 svg,
+.sightings-section h4 svg {
+    color: #34d399;
+}
+
+.crop-selector select {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    color: #f8fafc;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
+
+.pest-list,
+.pest-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pest-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+}
+
+.pest-card svg {
+    color: #fb7185;
+}
+
+.season-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.season-tab {
+    flex: 1;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.season-tab:hover,
+.season-tab.active {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    border-color: transparent;
+    color: white;
+}
+
+.seasonal-pests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.no-sightings {
+    text-align: center;
+    padding: 24px;
+    color: #64748b;
+}
+
+/* === History Page === */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-item {
+    display: flex;
+    gap: 14px;
+    padding: 16px;
+    margin-bottom: 0;
+}
+
+.history-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.history-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.history-plant {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #f8fafc;
+}
+
+.history-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+}
+
+.history-status.healthy {
+    color: #22c55e;
+}
+
+.history-status.unhealthy {
+    color: #f59e0b;
+}
+
+.history-date {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 48px 24px;
+}
+
+.empty-icon svg {
+    color: #64748b;
+    margin-bottom: 16px;
+}
+
+.empty-state p {
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+
+.start-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    border-radius: 16px;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transition: all 0.3s;
+}
+
+.start-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* === Modal Updates === */
+.modal-box {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(15, 23, 42, 0.95) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px 24px 0 0;
+    padding: 28px;
+}
+
+.modal-box h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.25rem;
+    color: #f8fafc;
+    margin-bottom: 24px;
+}
+
+.modal-box h3 svg {
+    color: #34d399;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #94a3b8;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    color: #f8fafc;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.submit-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px;
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    border: none;
+    border-radius: 16px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transition: all 0.3s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* === Button Updates === */
+.back-btn,
+.refresh-btn,
+.add-btn,
+.report-btn,
+.clear-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.back-btn:hover,
+.refresh-btn:hover,
+.add-btn:hover,
+.report-btn:hover {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #34d399;
+}
+
+.clear-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #f87171;
+}
+
+/* === Light Mode === */
+[data-theme="light"] .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    margin: -16px -16px 20px -16px;
+    width: calc(100% + 32px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.weather-header,
+[data-theme="light"] .weather-header,
+[data-theme="light"] .calendar-header,
+[data-theme="light"] .medicine-header,
+[data-theme="light"] .pest-header,
+[data-theme="light"] .history-header {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .chat-header h2,
+[data-theme="light"] .weather-header h2,
+[data-theme="light"] .calendar-header h2,
+[data-theme="light"] .medicine-header h2,
+[data-theme="light"] .pest-header h2,
+[data-theme="light"] .history-header h2 {
+    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+[data-theme="light"] .weather-hero,
+[data-theme="light"] .farm-score-card,
+[data-theme="light"] .forecast-section,
+[data-theme="light"] .advice-card,
+[data-theme="light"] .crops-section,
+[data-theme="light"] .mini-calendar,
+[data-theme="light"] .history-item,
+[data-theme="light"] .crop-item,
+[data-theme="light"] .disease-card,
+[data-theme="light"] .treatment-content,
+[data-theme="light"] .chat-input-bar,
+[data-theme="light"] .message.plant .message-bubble {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .weather-temp,
+[data-theme="light"] .score-num,
+[data-theme="light"] .forecast-temp,
+[data-theme="light"] .plant-name,
+[data-theme="light"] .disease-name,
+[data-theme="light"] .history-plant,
+[data-theme="light"] .treatment-content h3,
+[data-theme="light"] .calendar-nav span {
+    color: #0f172a;
+}
+
+/* === Responsive === */
+@media (min-width: 640px) {
+    .weather-content {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .weather-hero {
+        flex: 1 1 100%;
+    }
+
+    .farm-score-card,
+    .forecast-section {
+        flex: 1 1 calc(50% - 8px);
+    }
+
+    .advice-card {
+        flex: 1 1 100%;
+    }
+
+    .calendar-content {
+        flex-direction: row;
+    }
+
+    .crops-section,
+    .mini-calendar {
+        flex: 1;
+    }
+}
+
+@media (min-width: 768px) {
+    .screen.active {
+        padding: 24px;
+    }
+
+    .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    margin: -16px -16px 20px -16px;
+    width: calc(100% + 32px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.weather-header,
+    .weather-header,
+    .calendar-header,
+    .medicine-header,
+    .pest-header,
+    .history-header {
+        margin: -24px -24px 24px -24px;
+        padding: 20px 28px;
+    }
+}
+/* Additional Light Mode Text Fixes */
+[data-theme="light"] .detail-value,
+[data-theme="light"] .detail-label,
+[data-theme="light"] .farm-score-card h4,
+[data-theme="light"] .forecast-section h4,
+[data-theme="light"] .advice-card h4,
+[data-theme="light"] .crops-section h4,
+[data-theme="light"] .crop-pest-section h4,
+[data-theme="light"] .pest-calendar-section h4,
+[data-theme="light"] .sightings-section h4,
+[data-theme="light"] .forecast-day,
+[data-theme="light"] .forecast-temp,
+[data-theme="light"] .advice-item span,
+[data-theme="light"] .weather-desc,
+[data-theme="light"] .weather-location,
+[data-theme="light"] .calendar-grid > div,
+[data-theme="light"] .message.plant .message-bubble,
+[data-theme="light"] .message-time,
+[data-theme="light"] .quick-replies button,
+[data-theme="light"] .cat-btn,
+[data-theme="light"] .pest-card,
+[data-theme="light"] .pest-card strong,
+[data-theme="light"] .treatment-section li,
+[data-theme="light"] .treatment-section h4,
+[data-theme="light"] .history-info span,
+[data-theme="light"] .empty-crops,
+[data-theme="light"] .empty-state p,
+[data-theme="light"] .no-sightings,
+[data-theme="light"] .alert-text {
+    color: #1e293b;
+}
+
+[data-theme="light"] .chat-input-bar input,
+[data-theme="light"] .medicine-search input,
+[data-theme="light"] .crop-selector select,
+[data-theme="light"] .form-group input,
+[data-theme="light"] .form-group select,
+[data-theme="light"] .form-group textarea {
+    color: #0f172a;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .back-btn,
+[data-theme="light"] .refresh-btn,
+[data-theme="light"] .add-btn,
+[data-theme="light"] .report-btn,
+[data-theme="light"] .clear-btn,
+[data-theme="light"] .tts-btn,
+[data-theme="light"] .mic-btn,
+[data-theme="light"] .calendar-nav button,
+[data-theme="light"] .disease-arrow {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #475569;
+}
+
+[data-theme="light"] .forecast-item,
+[data-theme="light"] .advice-item,
+[data-theme="light"] .pest-card,
+[data-theme="light"] .treatment-section li,
+[data-theme="light"] .typing-indicator,
+[data-theme="light"] .quick-replies button {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .pest-alert-banner {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+}
+
+[data-theme="light"] .score-circle .bg {
+    stroke: rgba(0, 0, 0, 0.08);
+}
