@@ -11,7 +11,7 @@ export default function Header() {
 
     return (
         <header className="app-header">
-            <Link href="/" className="logo">
+            <Link href="/landing" className="logo">
                 <Leaf className="logo-icon" size={28} strokeWidth={2.5} />
                 <span className="logo-text">CropMagix</span>
             </Link>

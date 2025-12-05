@@ -22,6 +22,15 @@ export async function POST(request) {
         // Analyze soil using Gemini
         const result = await analyzeSoil(base64Image, language);
 
+        // Check if AI detected this is not a soil image
+        if (result.error === 'not_soil') {
+            return NextResponse.json({
+                success: false,
+                error: result.message || 'Please take a photo of soil, not a person or other object.',
+                notSoil: true
+            }, { status: 400 });
+        }
+
         return NextResponse.json({
             success: true,
             analysis: result,

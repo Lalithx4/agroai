@@ -57,19 +57,33 @@ export default function SoilAnalysisPage() {
 
     const startCamera = async () => {
         try {
-            const mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
-            });
-            setStream(mediaStream);
-            if (videoRef.current) {
-                videoRef.current.srcObject = mediaStream;
+            // Try back camera first (strict)
+            let mediaStream;
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: { exact: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }
+                });
+            } catch {
+                // Fallback to any available camera
+                mediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
+                });
             }
+            setStream(mediaStream);
             setCameraActive(true);
         } catch (error) {
             console.error('Camera error:', error);
             showToast('Camera not available. Please upload an image.', 'error');
         }
     };
+
+    // Connect stream to video element when both are ready
+    useEffect(() => {
+        if (stream && videoRef.current && cameraActive) {
+            videoRef.current.srcObject = stream;
+            videoRef.current.play().catch(console.error);
+        }
+    }, [stream, cameraActive]);
 
     const stopCamera = () => {
         if (stream) {
@@ -128,12 +142,18 @@ export default function SoilAnalysisPage() {
             if (data.success && data.analysis) {
                 setAnalysisResult(data.analysis);
                 showToast('🌱 Soil analysis complete!', 'success');
+            } else if (data.notSoil) {
+                // Not a soil image - show friendly message and reset
+                showToast('📷 Please take a photo of soil, not a person or other object.', 'warning');
+                setCapturedImage(null);
             } else {
-                throw new Error(data.error || 'Analysis failed');
+                showToast(data.error || 'Analysis failed. Please try again.', 'error');
+                setCapturedImage(null);
             }
         } catch (error) {
             console.error('Analysis error:', error);
             showToast('Failed to analyze soil. Please try again.', 'error');
+            setCapturedImage(null);
         } finally {
             setIsAnalyzing(false);
         }
