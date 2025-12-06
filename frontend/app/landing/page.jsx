@@ -133,6 +133,36 @@ export default function LandingPage() {
                 </div>
             </section>
 
+            {/* Developer Credits Section */}
+            <section className="landing-developers">
+                <div className="developers-card">
+                    <Award size={32} className="dev-icon" />
+                    <h2 className="dev-title">Developed by Students</h2>
+                    <div className="dev-info">
+                        <div className="dev-name">
+                            <span className="dev-label">Developer:</span>
+                            <span className="dev-value">C Vaishnavi</span>
+                        </div>
+                        <div className="school-details">
+                            <span className="school-name">TELANGANA MODEL SCHOOL HATHNOORA</span>
+                            <span className="school-location">Gundlamachanoor Students</span>
+                        </div>
+                        <div className="guide-info">
+                            <span className="guide-label">Guide Teacher:</span>
+                            <span className="guide-name">M PADMAJA</span>
+                        </div>
+                    </div>
+                    <p className="dev-desc">
+                        Empowering farmers with AI technology for sustainable agriculture
+                    </p>
+                    <div className="dev-badges">
+                        <span className="dev-badge">⚡ Made in India</span>
+                        <span className="dev-badge">💚 For Farmers</span>
+                        <span className="dev-badge">🎓 Student Project</span>
+                    </div>
+                </div>
+            </section>
+
             {/* Features Section */}
             <section className="landing-features">
                 <h2 className="section-title">
@@ -265,26 +295,6 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Credits Section */}
-            <section className="landing-credits">
-                <div className="credits-card">
-                    <Award size={32} />
-                    <h3>Developed by Students</h3>
-                    <div className="school-info">
-                        <span className="school-name">TGMS Hathnoora</span>
-                        <span className="school-location">Gundlamachanoor Students</span>
-                    </div>
-                    <p className="credits-desc">
-                        Empowering farmers with AI technology for sustainable agriculture
-                    </p>
-                    <div className="credits-badges">
-                        <span className="credit-badge">🌾 Made in India</span>
-                        <span className="credit-badge">💚 For Farmers</span>
-                        <span className="credit-badge">🎓 Student Project</span>
-                    </div>
-                </div>
-            </section>
-
             {/* Final CTA */}
             <section className="landing-final">
                 <h2>Ready to Transform Your Farming?</h2>
@@ -297,6 +307,9 @@ export default function LandingPage() {
 
             {/* Footer */}
             <footer className="landing-footer">
+                <p className="disclaimer">
+                    ⚠️ AI predictions are for guidance only. Always consult agricultural experts for critical decisions.
+                </p>
                 <p>© 2025 CropmagiX AI • Made with 💚 for Farmers</p>
             </footer>
         </div>
